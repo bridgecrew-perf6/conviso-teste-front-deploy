@@ -35,6 +35,8 @@ function EdicaoTema() {
 
         // if (editStatus === false) setOpenNoEdit(true)
 
+        if (editStatus === false) history.push("/home")
+
     };
 
     const handleClose = () => {
