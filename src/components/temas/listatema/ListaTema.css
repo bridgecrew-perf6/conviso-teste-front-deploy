@@ -1,0 +1,25 @@
+.text-decorator-none{
+    text-decoration: none;
+}
+
+.paper-main {
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+}
+
+.container-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+#severity-container {
+    display: flex;
+}
