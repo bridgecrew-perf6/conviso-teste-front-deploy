@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Box, Card, CardActions, CardContent, Button, Typography, TableContainer, Paper, Table, TableHead, TableCell, TableRow, TableBody, TableSortLabel, makeStyles, createStyles } from '@material-ui/core';
+import { Box, Button, Typography, TableContainer, Paper, Table, TableHead, TableCell, TableRow, TableBody } from '@material-ui/core';
 import './ListaTema.css';
 import { useHistory } from 'react-router-dom';
-import { busca, buscaNivel } from '../../../services/Service';
+import { busca } from '../../../services/Service';
 import { useSelector } from 'react-redux';
 import { TokenState } from '../../../store/tokens/tokensReducer';
 import { toast } from 'react-toastify';

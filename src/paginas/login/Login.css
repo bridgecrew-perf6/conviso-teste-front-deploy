@@ -3,7 +3,6 @@
 }
 
 .imagem{
-    background-image: url(../../img/login_splash.png);
     background-repeat: no-repeat;
     width: 100vh;
     min-height: 100vh;

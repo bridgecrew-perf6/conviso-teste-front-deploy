@@ -1,15 +1,12 @@
 import React, { useState, useEffect, ChangeEvent } from 'react'
-import { Container, Typography, TextField, Button, RadioGroup, FormLabel, FormControl, FormControlLabel, Radio, InputLabel, MenuItem, FormHelperText, Select, DialogTitle, Dialog, DialogContent, DialogContentText, DialogActions } from "@material-ui/core"
+import { Container, Typography, TextField, Button, RadioGroup, FormLabel, FormControl, FormControlLabel, Radio, DialogTitle, Dialog, DialogContent, DialogContentText, DialogActions } from "@material-ui/core"
 import { useHistory, useParams } from 'react-router-dom'
 import './CadastroTema.css';
-import Tema from '../../../models/Tema';
 import Categoria from '../../../models/Categoria'
 import { buscaId, post, put } from '../../../services/Service';
 import { useSelector } from 'react-redux';
 import { TokenState } from '../../../store/tokens/tokensReducer';
 import { toast } from 'react-toastify';
-import { orange } from '@material-ui/core/colors';
-import isImageURL from 'image-url-validator';
 
 
 function CadastroTema() {
@@ -79,13 +76,6 @@ function CadastroTema() {
     const [value, setValue] = React.useState(tema.nivel);
 
     const [tipoValue, setTipoValue] = React.useState(tema.tipo);
-
-    const [categoriaField, setCategoriaField] = React.useState(tema.categoria);
-    const [descricaoField, setDescricaoField] = React.useState(tema.descricaoCategoria);
-    const [nivelField, setNivelField] = React.useState(tema.nivel);
-    const [tipoField, setTipoField] = React.useState(tema.tipo);
-    const [evidenciaField, setEvidenciaField] = React.useState(tema.evidencia)    ;
-    const [solucaoField, setSolucaoField] = React.useState(tema.solucao);
 
     useEffect(() => {
         if (token === "") {

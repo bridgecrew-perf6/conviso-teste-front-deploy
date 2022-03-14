@@ -1,16 +1,13 @@
 import React, { useState, useEffect, ChangeEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Typography, TextField, Button, RadioGroup, FormLabel, FormControl, FormControlLabel, Radio, InputLabel, MenuItem, FormHelperText, Select, DialogTitle, Dialog, DialogContent, DialogContentText, DialogActions } from "@material-ui/core"
+import { Container, Typography, TextField, Button, RadioGroup, FormLabel, FormControl, FormControlLabel, Radio, DialogTitle, Dialog, DialogContent, DialogContentText, DialogActions } from "@material-ui/core"
 import { useHistory, useParams } from 'react-router-dom'
 import './EdicaoTema.css';
-import Tema from '../../../models/Tema';
 import Categoria from '../../../models/Categoria'
 import { buscaId, post, put } from '../../../services/Service';
 import { useSelector } from 'react-redux';
 import { TokenState } from '../../../store/tokens/tokensReducer';
 import { toast } from 'react-toastify';
-import { orange } from '@material-ui/core/colors';
-import isImageURL from 'image-url-validator';
 
 
 function EdicaoTema() {
