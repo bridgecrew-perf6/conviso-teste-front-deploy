@@ -17,6 +17,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createTheme, ThemeProvider } from '@material-ui/core';
 import TelaPostagem from './components/postagens/telaPostagem/TelaPostagem';
+import EdicaoTema from './components/temas/editcaoTema/EdicaoTema';
 
 const theme = createTheme({
   palette: {
@@ -78,7 +79,7 @@ function App() {
               <CadastroTema />
             </Route>
             <Route exact path='/formularioTema/:id'>
-              <CadastroTema />
+              <EdicaoTema />
             </Route>
             <Route path='/deletarPostagem/:id'>
               <DeletarPostagem />

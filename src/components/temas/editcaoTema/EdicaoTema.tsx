@@ -1,7 +1,8 @@
 import React, { useState, useEffect, ChangeEvent } from 'react'
+import { Link } from 'react-router-dom'
 import { Container, Typography, TextField, Button, RadioGroup, FormLabel, FormControl, FormControlLabel, Radio, InputLabel, MenuItem, FormHelperText, Select, DialogTitle, Dialog, DialogContent, DialogContentText, DialogActions } from "@material-ui/core"
 import { useHistory, useParams } from 'react-router-dom'
-import './CadastroTema.css';
+import './EdicaoTema.css';
 import Tema from '../../../models/Tema';
 import Categoria from '../../../models/Categoria'
 import { buscaId, post, put } from '../../../services/Service';
@@ -12,14 +13,28 @@ import { orange } from '@material-ui/core/colors';
 import isImageURL from 'image-url-validator';
 
 
-function CadastroTema() {
+function EdicaoTema() {
     let history = useHistory();
     const { id } = useParams<{ id: string }>();
 
     const [open, setOpen] = React.useState(false);
 
+    const [openNoEdit, setOpenNoEdit] = React.useState(false);
+
+    const [editStatus, setEditStatus] = React.useState(false);
+
+    const handleClickSalvar = () => {
+
+        if (editStatus === false) setOpenNoEdit(true);
+
+    }
+
     const handleClickOpen = () => {
-        setOpen(true);
+
+        if (editStatus === true) setOpen(true);
+
+        // if (editStatus === false) setOpenNoEdit(true)
+
     };
 
     const handleClose = () => {
@@ -76,17 +91,6 @@ function CadastroTema() {
         solucao: ''
     })
 
-    const [value, setValue] = React.useState(tema.nivel);
-
-    const [tipoValue, setTipoValue] = React.useState(tema.tipo);
-
-    const [categoriaField, setCategoriaField] = React.useState(tema.categoria);
-    const [descricaoField, setDescricaoField] = React.useState(tema.descricaoCategoria);
-    const [nivelField, setNivelField] = React.useState(tema.nivel);
-    const [tipoField, setTipoField] = React.useState(tema.tipo);
-    const [evidenciaField, setEvidenciaField] = React.useState(tema.evidencia)    ;
-    const [solucaoField, setSolucaoField] = React.useState(tema.solucao);
-
     useEffect(() => {
         if (token === "") {
             toast.error('Você precisa estar logado', {
@@ -130,7 +134,7 @@ function CadastroTema() {
         e.preventDefault()
         console.log("tema " + JSON.stringify(tema))
 
-        if (id !== undefined) {
+        if ((id !== undefined) && (openNoEdit === false)) {
             console.log(tema)
             put(`/posts`, tema, setTema, {
                 headers: {
@@ -153,7 +157,7 @@ function CadastroTema() {
                     'Authorization': token
                 }
             })
-            toast.success('Vulnerabilidade cadastrada com sucesso', {
+            toast.success('Nenhum dado alterado', {
                 position: "top-right",
                 autoClose: 2000,
                 hideProgressBar: false,
@@ -172,10 +176,56 @@ function CadastroTema() {
         history.push('/temas')
     }
 
+    const [value, setValue] = React.useState(tema.nivel);
+
+    const [tipoValue, setTipoValue] = React.useState(tema.tipo);
+
+    const [categoriaField, setCategoriaField] = React.useState('');
+    const [descricaoField, setDescricaoField] = React.useState(tema.descricaoCategoria);
+    const [nivelField, setNivelField] = React.useState(tema.nivel);
+    const [tipoField, setTipoField] = React.useState(tema.tipo);
+    const [solucaoField, setSolucaoField] = React.useState(tema.solucao);
+
+
+
+    useEffect(() => {
+        if (categoriaField === '') {
+            setCategoriaField(prevCategoriaField => tema.categoria)
+        } else if (categoriaField !== tema.categoria) {
+            setEditStatus(prevEditStatus => true);
+        }
+
+        if (descricaoField === '') {
+            setDescricaoField(prevDescricaoField => tema.descricaoCategoria)
+        } else if (descricaoField !== tema.descricaoCategoria) {
+            setEditStatus(prevEditStatus => true);
+        }
+
+        if (tipoField === '') {
+            setTipoField(prevTipoFiel => tema.tipo)
+        } else if (tipoField !== tema.tipo) {
+            setEditStatus(prevEditStatus => true);
+        }
+
+        if (nivelField === '') {
+            setNivelField(prevNivelField => tema.nivel)
+        } else if (nivelField !== tema.nivel) {
+            setEditStatus(prevEditStatus => true);
+        }
+
+        if (solucaoField === '') {
+            setSolucaoField(prevSolucaoField => tema.solucao)
+        } else if (solucaoField !== tema.solucao) {
+            setEditStatus(prevEditStatus => true);
+        }
+
+
+    }, [tema.categoria, categoriaField, tema.descricaoCategoria, descricaoField, tema.tipo, tipoField, tema.nivel, nivelField, tema.solucao, solucaoField])
+
     return (
         <Container maxWidth="lg" className="topo">
             <form onSubmit={onSubmit}>
-                <Typography variant="h3" color="textSecondary" component="h3" align="center" >Cadastro</Typography>
+                <Typography variant="h3" color="textSecondary" component="h3" align="center" >Edição de cadastro</Typography>
                 <TextField
                     value={tema.categoria}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => updatedTema(e)}
@@ -289,6 +339,7 @@ function CadastroTema() {
                 </Button>
 
                 <Button
+                    onClick={handleClickSalvar}
                     type="submit"
                     variant="contained"
                     color="primary"
@@ -297,8 +348,22 @@ function CadastroTema() {
                 </Button>
 
                 <Dialog
+                    open={openNoEdit}
+                >
+                    <DialogContent>
+                        Nenhum dado foi alterado
+                    </DialogContent>
+                    <DialogActions>
+                        <Link to={`/home`} className="text-decorator-none">
+                            <Button onClick={handleClose}>
+                                Proceder
+                            </Button>
+                        </Link>
+                    </DialogActions>
+                </Dialog>
+
+                <Dialog
                     open={open}
-                    onClose={handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
@@ -314,9 +379,11 @@ function CadastroTema() {
                         <Button onClick={handleClose}>
                             Não
                         </Button>
-                        <Button onClick={handleClose}>
-                            Sim
-                        </Button>
+                        <Link to={`/home`} className="text-decorator-none">
+                            <Button onClick={handleClose}>
+                                Sim
+                            </Button>
+                        </Link>
                     </DialogActions>
                 </Dialog>
             </form>
@@ -324,4 +391,4 @@ function CadastroTema() {
     )
 }
 
-export default CadastroTema;
+export default EdicaoTema;
