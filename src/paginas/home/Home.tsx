@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 import { Typography, Box, Grid, Button, Paper } from '@material-ui/core';
-import TabPostagem from '../../components/postagens/tabpostagem/TabPostagem';
-import ModalPostagem from '../../components/postagens/modalPostagem/ModalPostagem';
 import './Home.css';
 import { useHistory } from 'react-router';
 import { useSelector } from 'react-redux';
